@@ -1,0 +1,14 @@
+# Go
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+coverage.txt
+.env
+*.test
+*.prof
+Thumbs.db
+*.out
