@@ -77,3 +77,8 @@ func (c *Config) Validate() error {
 	}
 	return nil
 }
+
+// PortCount returns the total number of ports in the configured range.
+func (c *Config) PortCount() int {
+	return c.PortEnd - c.PortStart + 1
+}
