@@ -63,6 +63,13 @@ func TestOverall_AnyDown(t *testing.T) {
 	}
 }
 
+func TestOverall_Empty(t *testing.T) {
+	m := New()
+	if m.Overall() != StatusOK {
+		t.Errorf("expected ok for empty monitor, got %s", m.Overall())
+	}
+}
+
 func TestCheck_String(t *testing.T) {
 	c := Check{Name: "watcher", Status: StatusOK, Message: "running"}
 	expected := "[ok] watcher: running"
