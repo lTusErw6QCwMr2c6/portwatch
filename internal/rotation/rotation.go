@@ -74,6 +74,21 @@ func (r *Rotator) Rotate() error {
 	return r.prune(base, ext)
 }
 
+// RotatedFiles returns the list of rotated (archived) log files for the
+// current log path, sorted by filename (oldest first).
+func (r *Rotator) RotatedFiles() ([]string, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	ext := filepath.Ext(r.path)
+	base := r.path[:len(r.path)-len(ext)]
+	matches, err := filepath.Glob(base + ".*" + ext)
+	if err != nil {
+		return nil, fmt.Errorf("listing rotated files: %w", err)
+	}
+	return matches, nil
+}
+
 func (r *Rotator) prune(base, ext string) error {
 	pattern := base + ".*" + ext
 	matches, err := filepath.Glob(pattern)
