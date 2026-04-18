@@ -82,3 +82,15 @@ func (c *Config) Validate() error {
 func (c *Config) PortCount() int {
 	return c.PortEnd - c.PortStart + 1
 }
+
+// String returns a human-readable summary of the configuration.
+func (c *Config) String() string {
+	logDest := c.LogFile
+	if logDest == "" {
+		logDest = "stdout"
+	}
+	return fmt.Sprintf(
+		"interval=%ds ports=%d-%d log=%s level=%s json=%v",
+		c.Interval, c.PortStart, c.PortEnd, logDest, c.LogLevel, c.JSON,
+	)
+}
