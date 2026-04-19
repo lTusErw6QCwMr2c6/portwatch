@@ -66,3 +66,25 @@ func TestAll_ReturnsSnapshot(t *testing.T) {
 		t.Errorf("expected 2 entries, got %d", len(all))
 	}
 }
+
+func TestAll_EmptyWatchlist(t *testing.T) {
+	w := watchlist.New()
+	all := w.All()
+	if len(all) != 0 {
+		t.Errorf("expected 0 entries for empty watchlist, got %d", len(all))
+	}
+}
+
+func TestAdd_DuplicateOverwritesEntry(t *testing.T) {
+	w := watchlist.New()
+	w.Add(watchlist.Entry{Port: 22, Protocol: "tcp", Label: "ssh"})
+	w.Add(watchlist.Entry{Port: 22, Protocol: "tcp", Label: "ssh-updated"})
+
+	all := w.All()
+	if len(all) != 1 {
+		t.Errorf("expected 1 entry after duplicate add, got %d", len(all))
+	}
+	if all[0].Label != "ssh-updated" {
+		t.Errorf("expected updated label, got %s", all[0].Label)
+	}
+}
