@@ -85,3 +85,12 @@ func TestPublish_FullBuffer_DropsEvent(t *testing.T) {
 		t.Errorf("expected 0 deliveries to full buffer, got %d", n)
 	}
 }
+
+func TestUnsubscribe_NonExistent_NoError(t *testing.T) {
+	b := multicast.New(4)
+	// Unsubscribing a name that was never registered should not panic or affect state.
+	b.Unsubscribe("ghost")
+	if b.Len() != 0 {
+		t.Fatalf("expected 0 subscribers, got %d", b.Len())
+	}
+}
